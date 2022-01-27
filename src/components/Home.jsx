@@ -79,7 +79,7 @@ const Home = (props) => {
                   <div className="ms-2 me-auto justify-content-center align-items-center">
                     <div className="fw-bold">{job.title}</div>
                     <div>
-                      <Link to={`/${job._id}`}>{job.company_name}</Link>{" "}
+                      <Link to={`/${job.company_name}`}>{job.company_name}</Link>{" "}
                     </div>
                     <div>
                       <em>Publication Date:</em>
