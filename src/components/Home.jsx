@@ -14,14 +14,19 @@ import {
 } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToFavAction } from "../actions";
+import { addToFavAction , getJobsAction} from "../actions";
 
 
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
   addToFavAction: (job) => dispatch(addToFavAction(job)),
+  getJobs: () => {
+    dispatch(getJobsAction())
+  }
 });
+
+
 
 const Home = (props) => {
   const [query, setQuery] = useState();
@@ -29,11 +34,12 @@ const Home = (props) => {
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
-    fetchJobs();
+    /* fetchJobs(); */
+    props.getJobs();
     fetchcategory();
-  }, [query]);
+  }, []);
 
-  const fetchJobs = async () => {
+ /*  const fetchJobs = async () => {
     try {
       let response = await fetch(
         `https://strive-jobs-api.herokuapp.com/jobs?search=${query}&limit=10`
@@ -48,7 +54,7 @@ const Home = (props) => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }; */
 
   const fetchcategory = async () => {
     try {
@@ -85,7 +91,7 @@ const Home = (props) => {
         <Row>
           <Col>
             <ListGroup as="ul" className="d-flex justify-content-between align-items-center">
-              {jobOffers.map((job) => (
+              {props.data.map((job) => (
                 <ListGroup.Item
                   as="li"
                   className="d-flex justify-content-between align-items-start"

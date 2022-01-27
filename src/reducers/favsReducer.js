@@ -3,7 +3,7 @@ import { ADD_TO_FAV, REMOVE_FROM_FAV } from '../actions'
 
 
 
-const favsReducers = (state = initialState.favs, action)=>{
+const favsReducer = (state = initialState.favs, action)=>{
     switch(action.type){
         case ADD_TO_FAV:
       return {
@@ -31,4 +31,4 @@ const favsReducers = (state = initialState.favs, action)=>{
     
 }
 
-export default favsReducers
+export default favsReducer
