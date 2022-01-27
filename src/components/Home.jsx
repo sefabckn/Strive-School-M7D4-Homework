@@ -116,7 +116,7 @@ const Home = (props) => {
             </ListGroup>
           </Col>
         </Row>
-        <Row id='row2' md={4} s={6} xs={6} xlg={3} className="mt-3 d-flex">
+        <Row id='row2' md={4} s={6} sm={6} xlg={3} className="mt-3 d-flex">
           {
             category.map((c) => (
               <Col md={4}>

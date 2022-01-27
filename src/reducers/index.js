@@ -1,4 +1,4 @@
-import { ADD_TO_FAV, REMOVE_FROM_FAV } from "../actions";
+/* import { ADD_TO_FAV, REMOVE_FROM_FAV } from "../actions";
 import { initialState } from "../store";
 
 const mainReducer = (state = initialState, action) => {
@@ -32,3 +32,4 @@ const mainReducer = (state = initialState, action) => {
 };
 
 export default mainReducer;
+ */

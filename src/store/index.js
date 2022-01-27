@@ -1,4 +1,4 @@
-import { createStore, compose, combineReducers, } from 'redux'
+import { createStore, compose, combineReducers, applyMiddleware, } from 'redux'
 import mainReducer from '../reducers'
 import thunk from 'redux-thunk'
 import favsReducers from '../reducers/favs'
@@ -27,7 +27,8 @@ const bigReducer = combineReducers({
 const configureStore = createStore(
   mainReducer,
   initialState,
-  
+   // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  aComposeThatAlwaysWorks(applyMiddleware(thunk))
 )
 
 export default configureStore
