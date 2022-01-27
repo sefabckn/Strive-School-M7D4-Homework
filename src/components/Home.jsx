@@ -10,17 +10,27 @@ import {
   Nav,
   Navbar,
   Row,
+  Card
 } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToFavAction } from "../actions";
 
+
+const mapStateToProps = (state) => state;
+
+const mapDispatchToProps = (dispatch) => ({
+  addToFavAction: (job) => dispatch(addToFavAction(job)),
+});
+
 const Home = (props) => {
   const [query, setQuery] = useState();
   const [jobOffers, setJobOffers] = useState([]);
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
     fetchJobs();
+    fetchcategory();
   }, [query]);
 
   const fetchJobs = async () => {
@@ -40,20 +50,24 @@ const Home = (props) => {
     }
   };
 
+  const fetchcategory = async () => {
+    try {
+      let response = await fetch(
+        `https://strive-jobs-api.herokuapp.com/jobs?category=writing&limit=10`
+      );
+      if (response.ok) {
+        let jobs = await response.json();
+        console.log(jobs);
+        setCategory(jobs.data);
+      } else {
+        console.log("Error");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="#home">Find a Job</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link as={Link} to="/favorites">
-              Favourites
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-
       <h1>Here is your Job Search Results: </h1>
       <Container>
         <Row id="row1">
@@ -70,7 +84,7 @@ const Home = (props) => {
         </Row>
         <Row>
           <Col>
-            <ListGroup as="ul">
+            <ListGroup as="ul" className="d-flex justify-content-between align-items-center">
               {jobOffers.map((job) => (
                 <ListGroup.Item
                   as="li"
@@ -102,14 +116,33 @@ const Home = (props) => {
             </ListGroup>
           </Col>
         </Row>
+        <Row id='row2' md={4} s={6} xs={6} xlg={3} className="mt-3 d-flex">
+          {
+            category.map((c) => (
+              <Col md={4}>
+                <Card style={{ width: '18rem' }}>
+                  <Card.Body>
+                    <Card.Title><h2>{c.title}</h2></Card.Title>
+                    <Card.Text>
+                      {c.company_name}
+                    </Card.Text>
+                    <Card.Text>
+                      <span><b>{c.job_type.toUpperCase()}</b> - {c.category}</span>
+                    </Card.Text>
+                    <Button onClick={() => {props.addToFavAction(c);}}
+                      variant="primary">
+                      Add To Fav
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          }
+        </Row>
       </Container>
     </>
   );
 };
 
-const mapStateToProps = (state) => state;
 
-const mapDispatchToProps = (dispatch) => ({
-  addToFavAction: (job) => dispatch(addToFavAction(job)),
-});
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
